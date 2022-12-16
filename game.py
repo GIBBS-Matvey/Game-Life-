@@ -80,6 +80,7 @@ def draw_cell(x, y):
 
 def game_loop():
 
+    prev_field = list()
     cur_field = [[random.randint(0, 1) for i in range(M)] for j in range(N)]
     button_next_generation = pygame.Rect(650, 100, 50, 50)
     button_die = pygame.Rect(650, 200, 50, 50)
@@ -121,9 +122,7 @@ def game_loop():
 
                 if button_next_generation.collidepoint(mouse_pos):
                     draw_field(cur_field)
-
-                    next_state_field = get_next_generation(cur_field)
-                    cur_field = deepcopy(next_state_field)
+                    cur_field = [[random.randint(0, 1) for i in range(M)] for j in range(N)]
 
                 if button_die.collidepoint(mouse_pos):
                     for x in range(0, M):
@@ -135,17 +134,21 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_RIGHT:
-                    draw_field(cur_field)
 
                     next_state_field = get_next_generation(cur_field)
+                    prev_field = deepcopy(cur_field)
                     cur_field = deepcopy(next_state_field)
+
+                if event.type == pygame.K_LEFT:
+                    cur_field = deepcopy(prev_field)
+                    prev_field = deepcopy(cur_field)
 
                 if event.key == pygame.K_SPACE:
                     for x in range(0, M):
                         for y in range(0, N):
                             cur_field[x][y] = 0
 
-                    draw_field(cur_field)
+                draw_field(cur_field)
 
         pygame.display.flip()
         clock.tick(fps)
