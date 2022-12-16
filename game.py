@@ -80,7 +80,6 @@ def draw_cell(x, y):
 
 def game_loop():
 
-    prev_field = list()
     cur_field = [[random.randint(0, 1) for i in range(M)] for j in range(N)]
     button_next_generation = pygame.Rect(650, 100, 50, 50)
     button_die = pygame.Rect(650, 200, 50, 50)
@@ -136,12 +135,7 @@ def game_loop():
                 if event.key == pygame.K_RIGHT:
 
                     next_state_field = get_next_generation(cur_field)
-                    prev_field = deepcopy(cur_field)
                     cur_field = deepcopy(next_state_field)
-
-                if event.type == pygame.K_LEFT:
-                    cur_field = deepcopy(prev_field)
-                    prev_field = deepcopy(cur_field)
 
                 if event.key == pygame.K_SPACE:
                     for x in range(0, M):
